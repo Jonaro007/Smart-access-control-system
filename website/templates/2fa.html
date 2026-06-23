@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Account-Dashboard{% endblock %}
+
+{% block content %}
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='login.css')}}">
+
+    <div class="form-container">
+        {% if firsttime == True %}
+        <p class="title">2FA Einrichtung</p>
+            <h2>Anleitung!</h2>
+            <li>Lade die App "Google Authenticator" auf dein Smartphone herunter.</li>
+            <li>Richte einen neuen Authenticator ein.</li>
+            <li>Nachdem du den QR-Code gescannt hast, klicke bitte <a href="">hier</a>.</li>
+            <img style="height: 320px; width: 320px;" src="/qrcode/{{user.firstname}}">
+    
+            <div class="input-group">
+                <label for="token">Geheimer Token</label>
+                <input type="text" id="secret" value="{{ user.google_verify }}" readonly>
+                <button class="sign" onclick="navigator.clipboard.writeText(document.getElementById('secret').value)">Kopieren</button>
+            </div>
+            <a style="font-size: 11px; text-align: center;" href="">Nachdem du den QR-Code gescannt hast, klicke bitte hier.</a>
+        {% else %}
+            <form method="POST">
+                <p class="title">OTP eingeben</p>
+                <div class="input-group">
+                    <label for="password">Gib den OTP-Code ein</label>
+                    <input type="text" name="code" placeholder="6-stelliger Code">
+                </div>
+                <button type="submit" class="sign">Überprüfen</button>
+            </form>
+        {% endif %}
+    </div>
+
+{% endblock %}

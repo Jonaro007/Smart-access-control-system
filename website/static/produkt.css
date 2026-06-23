@@ -1,0 +1,408 @@
+.oben {
+    width: 100%;        
+    height: 300px;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    gap: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.oben h2 {
+    font-size: 40px;
+    font-weight: bold;
+}
+.oben p {
+    font-size: 12px;
+    color: #555;
+    text-align: center;
+    max-width: 80%;
+}
+.oben button {
+    margin-top: 20px;
+    padding: 15px 25px;
+    font-size: 25px;
+    color: white;
+    background-color: #19a1a9;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.unten {
+    background-color: #f8f6fc;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    gap: 20px;
+}
+
+.warum {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    gap: 20px;
+    padding: 40px;
+}
+.warum h3 {
+    font-size: 40px;
+    font-weight: bold;
+}
+.warum p {
+    font-size: 15px;
+    color: #555;
+    text-align: center;
+    max-width: 70%;
+}
+
+.boxen {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 40px;
+}
+.boxen div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 200px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.boxen div h4 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.boxen div p {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+}
+.boxen i {
+    font-size: 50px;
+    color: #19a1a9;
+    margin-bottom: 15px;
+}
+
+.infos {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    gap: 20px;
+    padding: 40px;
+}
+
+.infoseins{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+
+    
+}
+.infoseinsÜber {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    width: 800px;
+    height: 300px;
+    padding: 20px;
+    border-radius: 10px;
+}
+.infoseinsÜberZwei {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+}
+.infoseinsÜberZwei div {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+.infoseinsÜberZwei div p {
+    font-size: 16px;
+    color: #555;
+    text-align: start;
+}
+.infoseinsüberschrift {
+    font-size: 25px;
+    margin-bottom: 60px;
+    font-weight: bold;
+}
+
+
+.infoszwei {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+}
+.sicherheit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    width: 400px;
+    height: 300px;
+    padding: 20px;
+    border-radius: 10px;
+}
+.sicherheit h3 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.sicherheit p {
+    font-size: 16px;
+    color: #555;
+    text-align: start;
+}
+
+.paket {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: row;
+    gap: 20px;
+    width: 500px;
+    height: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+}
+.paket h4 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+.paket p {
+    font-size: 20px;
+    color: #555;
+    text-align: start;
+}
+
+.slide-up {
+  opacity: 0;
+  transform: translateY(40px); 
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+
+.slide-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #8e8e93;
+    font-size: 0.9rem;
+  }
+
+
+
+@media (max-width: 1024px) {
+    .oben h2 { font-size: 28px; }
+    .oben button { font-size: 18px; padding: 10px 20px; }
+    .warum h3 { font-size: 24px; }
+    .warum p { font-size: 13px; }
+    .boxen div { width: 200px; min-height: 180px; }
+    .boxen i { font-size: 35px; }
+    .sicherheit h3, .paket h4 { font-size: 20px; }
+    .sicherheit p, .paket p { font-size: 13px; }
+}
+
+@media (max-width: 600px) {
+    .oben h2 { font-size: 24px; }
+    .oben button { font-size: 16px; padding: 8px 18px; }
+    .warum h3 { font-size: 20px; }
+    .warum p { font-size: 12px; }
+    .boxen div { width: 100%; }
+    img { scale: 0.8; }
+    
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    overflow-x: hidden; 
+}
+
+
+.oben {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    height: auto;
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.oben h2 {
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 1.2;
+    word-break: break-word; 
+}
+
+.oben p {
+    font-size: 14px;
+    color: #555;
+    max-width: 90%;
+    text-align: center;
+}
+
+.oben button {
+    padding: 12px 25px;
+    font-size: 20px;
+    color: white;
+    background-color: #19a1a9;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+.unten {
+    background-color: #f8f6fc;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 10px;
+}
+
+.warum {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+.warum h3 {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.warum p {
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+}
+
+
+.boxen {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px;
+}
+
+.boxen div {
+    width: 250px;
+    min-height: 200px;
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.infos {
+        padding: 30px 10px;
+    }
+
+    .infoseins {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .infoseinsÜber {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+    }
+    .infoseinsÜberZwei {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+.sicherheit, .paket {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.slide-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.slide-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #8e8e93;
+    font-size: 0.9rem;
+}
+}

@@ -1,0 +1,83 @@
+<link rel="stylesheet" href="{{url_for('static', filename='account.css')}}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zugriff entfernen</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <header>
+        <nav>
+        <ol >
+            <div class="left-über">
+                <li><a href="/"><i class="fa-solid fa-lock"></i></a></li>
+                <li><a href="/">Smart Lock</a></li>
+            </div>
+        </ol>
+        <ol>
+            {% if user.role == "Guest" %}
+            <li><a href="/account/{{user.account}}">Dashboard</a></li>
+            {% elif user.role in ["Owner", "Admin"] %}
+            <li><a href="/account/{{user.account}}">Dashboard</a></li>
+            <li><a  href="/account/access_codes/{{user.account}}">Zugangscodes</a></li>
+            <li><a class="activ" href="/account/users/{{user.account}}">Benutzerwerwaltung</a></li>
+            <li><a href="/account/logs/{{user.account}}">Protokoll</a></li>
+            {% else %}
+            <li><a href="/account/{{user.account}}">Dashboard</a></li>
+            <li><a href="/account/access_codes/{{user.account}}">Zugangscodes</a></li>
+            {% endif %}
+        </ol>
+        <ol>
+            <p>Hallo, {{ user.firstname }}</p>
+            <p>|</p>
+            <a href="/logout">Abmelden</a>
+        </ol>
+    </nav>
+    </header>
+
+
+
+    <link rel="stylesheet" href="{{url_for('static', filename='dashboard.css')}}">
+    <div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    <span class="flash">{{ message }}</span>
+                    <button class="close-btn" onclick="this.parentElement.remove()">✖</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    </div>
+    <form class="check_access" method="POST" action="{{ url_for('auth.revoke_access') }}">
+    <h1>Zugangscode verwaltung</h1>
+    {% for ip in ips %}
+        <div class="check_access_ip">
+            
+            <p>Zugangscode: {{ ip.access_code }}</p>
+            <p>IP: {{ ip.ip }}</p>
+            
+
+            
+            <div class="check_access_checkbox">
+                <p>Zugriff entziehen</p>
+                  <div class="checkbox-wrapper-31" >
+                <input type="checkbox" name="revoke_ids" value="{{ ip.approval_id }}"/>
+                <svg viewBox="0 0 35.6 35.6">
+                    <circle class="background" cx="17.8" cy="17.8" r="17.8"></circle>
+                    <circle class="stroke" cx="17.8" cy="17.8" r="14.37"></circle>
+                    <polyline class="check" points="11.78 18.12 15.55 22.23 25.17 12.87"></polyline>
+                </svg>
+                </div>
+            </div>
+            
+        </div>
+    {% endfor %}
+    <button class="request-btn" type="submit">Zugriff entziehen</button>
+</form>
+    
+</body>
+</html>
