@@ -67,10 +67,15 @@ Steuert den physischen Schließmechanismus und empfängt autorisierte Befehle vo
 
 ###Installation
 1. Repository klonen
+   
 `git clone <repository-url>`
+
 `cd smart-access-control-system`
+
 2. Abhängigkeiten installieren
+
 `pip install -r requirements.txt`
+
 3. Umgebung konfigurieren
 
 **Erstelle eine .env Datei im Root-Verzeichnis:**
@@ -87,7 +92,7 @@ Der Server startet automatisch und stellt die Verbindung zum ESP32-System her.
 
 ---
 
-###Hardware
+### Hardware
 Für den Nachbau werden mindestens folgende Komponenten benötigt:
 
 - ESP32 Mikrocontroller
@@ -95,16 +100,16 @@ Für den Nachbau werden mindestens folgende Komponenten benötigt:
 - Stromversorgung
 
 
-###Das System implementiert mehrere Sicherheitsmechanismen:
+### Das System implementiert mehrere Sicherheitsmechanismen:
 
 - Passwort-Hashing (SHA-256)
 - Zwei-Faktor-Authentifizierung (TOTP)
 - Geräteauthentifizierung mittels Challenge-Response (AES)
 - Rollenbasierte Zugriffskontrolle
-###Bekannte Einschränkungen
+### Bekannte Einschränkungen
 
 Dieses Projekt wurde als schulische Arbeit entwickelt. Für produktive Nutzung wären zusätzliche Maßnahmen erforderlich, insbesondere in den Bereichen Skalierbarkeit, Härtung der Sicherheitsarchitektur und Fehlerbehandlung.
 
-###Dokumentation
+### Dokumentation
 
 Eine ausführliche technische Dokumentation befindet sich im Repository bzw. im Ordner docs/.
