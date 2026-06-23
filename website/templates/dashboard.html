@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <title>Dashboard</title>
+</head>
+<body>
+    <header>
+        <nav class="nav">
+        <ol >
+            <div class="left-über">
+                <li><a href="/"><i class="fa-solid fa-lock"></i></a></li>
+                <li><a href="/">Smart Lock</a></li>
+            </div>
+        </ol>
+        <ol>
+            {% if user.role == "Guest" %}
+            <li><a class="activ" href="/account/{{user.account}}">Dashboard</a></li>
+            {% elif user.role in ["Owner", "Admin"] %}
+            <li><a class="activ" href="/account/{{user.account}}">Dashboard</a></li>
+            <li><a href="/account/access_codes/{{user.account}}">Zugangscodes</a></li>
+            <li><a href="/account/users/{{user.account}}">Benutzerwerwaltung</a></li>
+            <li><a href="/account/logs/{{user.account}}">Protokoll</a></li>
+            {% else %}
+            <li><a class="activ" href="/account/{{user.account}}">Dashboard</a></li>
+            <li><a href="/account/access_codes/{{user.account}}">Zugangscodes</a></li>
+            {% endif %}
+        </ol>
+        <ol>
+            <p>Hallo, {{ user.firstname }}</p>
+            <p>|</p>
+            <a href="/logout">Abmelden</a>
+        </ol>
+    </nav>
+    </header>
+
+
+
+    <link rel="stylesheet" href="{{url_for('static', filename='dashboard.css')}}">
+    <script src="{{url_for('static', filename='intro.css')}}"></script>
+    <div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    <span class="flash">{{ message }}</span>
+                    <button class="close-btn" onclick="this.parentElement.remove()">✖</button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+    <section class="mobil-v">
+        <p>Diese Ansicht ist nur auf einem Desktop verfügbar. Bitte wechsle zu einem Desktop-Gerät, um die vollständige Ansicht zu sehen.</p>
+    </section>
+    <section class="desktop-v">
+        <div class="base-account">
+            <div class="left-account">
+                <div>
+                    <button onclick="window.location.href='{{ url_for('views.home') }}'" class="active"><i class="fa-solid fa-grip-vertical"></i> Home</button>
+                    <button class="appleOpenModal"><i class="fa-solid fa-gear"></i> Einstellungen</button>
+                    <button 
+                        class="guide-btn" 
+                        onclick="window.location.href='{{ url_for('views.anleitung') }}'">
+                        
+                        <i class="fa-solid fa-book"></i>
+                        <span>Anleitung</span>
+
+                    </button>
+                    <button 
+                        class="guide-btn" 
+                        onclick="window.location.href='{{ url_for('views.shortcut') }}'">
+                        
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <span>Shortcut erstellen</span>
+
+                    </button>
+                    
+
+                </div>                
+            </div>
+            <div class="right-account">
+                <div class="set_right">
+                    <div class="setting">
+                    <div class="big-boxes">
+                        <div class="devices">
+                        <div class="stat">
+                            <h2>Türstatus</h2>
+                            <p id="online-status" >Checking Online Status...</p>
+                        </div>
+                        <div class="device">
+                        
+                            <div class="device-side">
+                                {% if user.status == false %}
+                                    <i class="fa-solid fa-lock"></i>
+                                {% else %}
+                                    <i class="fa-solid fa-unlock"></i>
+                                {% endif %}
+                                <div>
+                                    {% if user.status == false %}
+                                        <p id="status">Status: Geschlossen</p>
+                                    {% else %}
+                                        <p id="status">Status: Offen</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if user.status == false %}
+                                <button class="devicebutton" id="doorbutton">Öffnen</button>
+                            {% else %}
+                                <button class="devicebutton" id="doorbutton">Schließen</button>
+                            {% endif %}
+                        </div>
+                    </div>
+
+
+                    <div class="protokoll">
+                        <h2>Protokoll</h2>
+                        <div class="prot">
+                            {% if logs %}
+                                {% for log in logs[:2] %}
+                                    <div class="protokol-log">
+                                        <div class="prot-log">
+                                            <p class="protokoll_p">{{ log.date.strftime("%H:%M") }} </p>
+                                    <div>
+                                        <p class="protokoll_p">{{ log.nachrichten }}</p>
+                                        <p style="color: gray; font-size: 15px;">Von {{ log.author }}</p>
+                                    </div>
+                                        </div>
+                                    <p style="color: green;">Erfolgreich</p>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p>Keine Protokoll Einträge vorhanden</p>
+                            {% endif %}
+                        </div>
+                        {% if logs %}
+                        <a style="text-decoration: none; color: black; font-size: 20;" href="{{ url_for('views.account_logs', session=user.account) }}">Weiter Protokolle ></a>
+                        {% endif %}
+                    </div>
+                    </div>
+                    
+                    <div class="small-boxes">
+                        <div class="letzte">
+                        <h2>Letzte Aktivitäten</h2>
+                            <div>
+                            {% if last_access_code %}
+                            <strong><p>{{ last_access_code.date.strftime("%d.%m %H:%M") }} Zugangscode genutzt</p></strong>
+                        {% else %}
+                            <p>Keine Zugangscode Aktivität vorhanden</p>
+                        {% endif %}
+                            </div>
+                        </div>
+
+                    <div class="letzte">
+                        <h2>Zugangscodes</h2>
+                        <div>
+                            {% if anzahl_access_codes > 0 %}
+                                <p>{{ anzahl_access_codes }} Zugangscodes vorhanden</p>
+                            {% else %}
+                                <p>Keine Zugangscodes vorhanden</p>
+                            {% endif %}
+                            <a style="text-decoration: none; padding: 8px;" href="{{ url_for('views.access_codes', session=user.account) }}">></a>
+                        </div>
+                    </div>
+                    </div>
+                    
+                </div>
+                
+                </div>
+                {% for req in access_requests %}
+                <div class="access-request" id="request-{{ req.id }}">
+                    <p>{{ req.request | safe }}</p>
+                    <div><button class="request-btn" data-id="{{ req.id }}" data-action="approve">✅</button>
+                    <button class="request-btn" data-id="{{ req.id }}" data-action="deny">❌</button></div>
+                    </div>
+            {% endfor %}
+
+            {% if not user.onetime %}
+                        <div class="connection">
+                            <p>Verbinde dein SmartLock mit deinem Konto</p>
+                            <form class="form" method="POST" onsubmit="return validateForm()">
+                                <div class="input-group">
+                                    <input type="password" name="onetimecode" id="onetimecode" placeholder="Gib dein 8 stelligen code ein" required>
+                                </div>
+                                <button name="form_name" value="onetime_form" type="submit" class="sign">speichern</button>
+                            </form>
+                        </div>
+                    {% endif %}
+            </div>
+            
+        </div>
+    </section>
+
+
+
+
+<div class="apple-modal-bg" id="modalBg">
+  <div class="apple-modal">
+    <div class="apple-modal-header">
+      <h2>Account Settings</h2>
+      <span class="apple-close" id="closeModal">&times;</span>
+    </div>
+    <button id="tour-neu-start" class="apple-save">Erklärung neu starten</button>
+
+    <h3>Account Informations</h3>
+    <form class="apple-form" method="POST" action="{{ url_for('auth.account_settings') }}">
+      <div class="apple-input">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="{{user.username}}">
+      </div>
+      <div class="apple-input">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="{{user.email}}">
+      </div>
+      <div class="apple-input">
+        <label>Password</label>
+        <a href="{{ url_for('auth.reset_password') }}" class="apple-link">Passwort ändern</a>
+      </div>
+      <div class="apple-input">
+        <label>Smart Lock Code</label>
+        <input type="text" name="onetime" placeholder="{{user.onetime}}">
+      </div>
+
+      <h3>User Information</h3>
+      <div class="apple-input">
+        <label>Firstname</label>
+        <input type="text" name="firstname" placeholder="{{user.firstname}}">
+      </div>
+      <div class="apple-input">
+        <label>Name</label>
+        <input type="text" name="name" placeholder="{{user.name}}">
+      </div>
+
+      <button type="submit" name="form_name" value="modal_form" class="apple-save">Save</button>
+    </form>
+  </div>
+</div>
+{% if not user.show_tour %}
+<div class="tour-blur" id="tourBlur"></div>
+
+<div class="tour" id="tourBox">
+  <div class="tour-arrow" id="tourArrow"></div>
+
+  <h2 id="tourTitle"></h2>
+  <p id="tourText"></p>
+
+  <div class="tour-footer">
+    <div id="tourDots"></div>
+    <button id="tourNext">Weiter</button>
+  </div>
+</div>
+{% endif %}
+
+<script>
+        setTimeout(() => {
+            document.querySelectorAll('.flash-message').forEach(msg => {
+                msg.style.animation = "fadeOut 0.5s ease-in-out";
+                setTimeout(() => msg.remove(), 500);
+            });
+        }, 5000);
+    </script>
+
+<script>
+    const tourRestartBtn = document.getElementById('tour-neu-start');
+    tourRestartBtn.addEventListener('click', async () => {
+        try {
+            const res = await fetch('/tour-abgeschlossen', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const data = await res.json();
+            console.log(data);
+            location.reload(); 
+
+        } catch (err) {
+            console.error(err);
+            alert('Fehler beim Verarbeiten der Anfrage.');
+        }
+    });
+</script>
+
+  <script>
+    const modalBg = document.getElementById('modalBg');
+const closeBtn = document.getElementById('closeModal');
+
+// Öffnen
+document.querySelectorAll('.appleOpenModal').forEach(btn => {
+  btn.addEventListener('click', () => {
+    modalBg.style.display = 'flex';
+  });
+});
+
+// Schließen per X
+closeBtn.onclick = () => modalBg.style.display = 'none';
+
+// Schließen per Klick außerhalb
+modalBg.onclick = (e) => {
+  if(e.target === modalBg) modalBg.style.display = 'none';
+};
+
+  </script>
+
+
+    <script>
+        const statusDiv = document.getElementById('online-status');
+
+async function checkOnlineStatus() {
+    try {
+        const res = await fetch('/check_if_online');
+        const data = await res.json();
+
+        // Status prüfen und Emoji setzen
+        if (data.message === "Online") {
+            statusDiv.textContent = "🟢"; // Online
+            statusDiv.style.color = "green";
+        } else if (data.message === "Offline") {
+            statusDiv.textContent = "⚪"; // Offline
+            statusDiv.style.color = "gray";
+        } else {
+            statusDiv.textContent = "❌"; // Unbekannter Status
+            statusDiv.style.color = "red";
+        }
+
+    } catch (err) {
+        console.error("Fehler beim Prüfen des Status:", err);
+        statusDiv.textContent = "⚠️"; // Fehler
+        statusDiv.style.color = "orange";
+    }
+}
+
+// Alle 2 Sekunden prüfen
+setInterval(checkOnlineStatus, 3000);
+
+// Sofort beim Laden prüfen
+checkOnlineStatus();
+
+
+    </script>
+
+    <script>
+        const button = document.getElementById('doorbutton');
+const resultDiv = document.getElementById('status');
+const icon = document.querySelector('.device-side i');
+const logsTableBody = document.querySelector('.logs tbody');
+
+button.addEventListener('click', async () => {
+    try {
+        const response = await fetch('/set_status/door', { method: 'POST' });
+        const data = await response.json();
+
+        // Status aus der Response lesen
+        if (data.status === "locked") {
+            icon.classList.remove('fa-unlock');
+            icon.classList.add('fa-lock');
+            resultDiv.textContent = 'Status: Geschlossen';
+            button.textContent = 'Unlock';  // Klick → Status ändern
+        } else if (data.status === "unlocked") {
+            icon.classList.remove('fa-lock');
+            icon.classList.add('fa-unlock');
+            resultDiv.textContent = 'Status: Offen';
+            button.textContent = 'Lock';  // Klick → Status ändern
+        }
+        else{
+            resultDiv.innerHTML = `<p style="color:red;">Error: Your Smart Lock is not connected</p>`;
+        }
+
+        // Logs neu laden
+        await updateLogs();
+
+    } catch (error) {
+        resultDiv.innerHTML = `<p style="color:red;">Fehler: ${error}</p>`;
+    }
+});
+
+async function updateLogs() {
+    try {
+        const res = await fetch('/api/logs');
+        let logs = await res.json();
+
+        // nur die ersten 2 
+        logs = logs.slice(0, 2);
+
+        const container = document.querySelector(".prot");
+        container.innerHTML = "";
+
+        if (logs.length === 0) {
+            container.innerHTML = "<p>Keine Protokoll Einträge vorhanden</p>";
+            return;
+        }
+
+        logs.forEach(log => {
+            const date = new Date(log.date);
+            const time =
+                String(date.getHours()).padStart(2, "0") +
+                ":" +
+                String(date.getMinutes()).padStart(2, "0");
+
+            container.innerHTML += `
+                <div class="protokol-log">
+                    <div class="prot-log">
+                        <p class="protokoll_p">${time}</p>
+                        <div>
+                            <p class="protokoll_p">${log.nachrichten}</p>
+                            <p style="color: gray; font-size: 15px;">Von ${log.author}</p>
+                        </div>
+                    </div>
+                    <p style="color: green;">Erfolgreich</p>
+                </div>
+            `;
+        });
+
+
+    } catch (err) {
+        console.error("Fehler beim Laden der Logs:", err);
+    }
+}
+
+    </script>
+
+    <script>
+        document.querySelectorAll('.request-btn').forEach(button => {
+    button.addEventListener('click', async () => {
+        const requestId = button.dataset.id;
+        const action = button.dataset.action;
+
+        try {
+            const res = await fetch('/handle_request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ request_id: requestId, action: action })
+            });
+
+            const data = await res.json();
+
+            if (data.status === 'success') {
+                const reqDiv = document.getElementById(`request-${requestId}`);
+                if (reqDiv) reqDiv.remove();
+            } else {
+                alert(data.message);
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Fehler beim Verarbeiten der Anfrage.');
+        }
+    });
+});
+
+    </script>
+
+{% if not user.show_tour %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+const steps = [
+  {
+    title: "Willkommen",
+    text: "Willkommen zu deinem Smart Lock Dashboard. Wir zeigen dir kurz die wichtigsten Funktionen.",
+    el: null
+  },
+  {
+    title: "Navigation",
+    text: "Über die Navigationsleiste erreichst du Zugangscodes, Benutzerverwaltung und das vollständige Protokoll.",
+    el: ".nav"
+  },
+  {
+    title: "Türstatus",
+    text: "Hier siehst du den aktuellen Status deiner Tür und kannst sie mit einem Klick steuern.",
+    el: ".devices"
+  },
+  {
+    title: "Aktivitäten",
+    text: "Hier werden die letzten Ereignisse angezeigt. Das komplette Protokoll findest du in der Navigation.",
+    el: ".protokoll"
+  },
+  {
+    title: "Zugangscodes",
+    text: "Hier erhältst du eine Übersicht deiner Zugangscodes und kannst neue erstellen.",
+    el: ".small-boxes"
+  },
+  {
+    title: "Einstellungen",
+    text: "Verwalte hier deine persönlichen Daten und Sicherheitseinstellungen.",
+    el: ".appleOpenModal"
+  },
+  {
+    title: "Anleitung",
+    text: "Bei der Anleitung findest du eine ausführliche Erklärung zu allen Funktionen und zur Einrichtung deines Smart Locks.",
+    el: ".guide-btn"
+  },
+  {
+    title: "Fertig",
+    text: "Du bist bereit. Viel Erfolg mit deinem Smart Lock System. Du kannst die Tour in den Einstellungen immer neu starten",
+    el: null
+  }
+];
+
+
+let i = 0;
+const blur = document.getElementById("tourBlur");
+const box = document.getElementById("tourBox");
+const title = document.getElementById("tourTitle");
+const text = document.getElementById("tourText");
+const dots = document.getElementById("tourDots");
+const next = document.getElementById("tourNext");
+
+let lastEl = null;
+
+function createDots(){
+  dots.innerHTML="";
+  steps.forEach((_,index)=>{
+    const d=document.createElement("div");
+    d.className="dot"+(index===i?" active":"");
+    dots.appendChild(d);
+  });
+}
+
+function updateDots(){
+  document.querySelectorAll(".dot")
+    .forEach((d,index)=>d.classList.toggle("active",index===i));
+}
+
+function spotlight(selector){
+
+  if(lastEl){
+    lastEl.classList.remove("highlight");
+  }
+
+  if(!selector){
+    blur.style.clipPath = "none";
+    blur.classList.remove("spotlight");
+    return;
+  }
+
+  const el = document.querySelector(selector);
+  const r = el.getBoundingClientRect();
+  lastEl = el;
+
+  el.classList.add("highlight");
+
+  const padding = 8;
+
+  blur.classList.add("spotlight");
+
+  blur.style.clipPath = `
+    polygon(
+      0% 0%, 
+      100% 0%, 
+      100% 100%, 
+      0% 100%,
+      0% 0%,
+      ${r.left - padding}px ${r.top - padding}px,
+      ${r.right + padding}px ${r.top - padding}px,
+      ${r.right + padding}px ${r.bottom + padding}px,
+      ${r.left - padding}px ${r.bottom + padding}px,
+      ${r.left - padding}px ${r.top - padding}px
+    )
+  `;
+
+  box.style.top = r.bottom + 30 + "px";
+  box.style.left = r.left + "px";
+}
+
+
+function show(){
+  title.innerText = steps[i].title;
+  text.innerText = steps[i].text;
+
+  spotlight(steps[i].el);
+  updateDots();
+}
+
+
+function start(){
+  blur.style.display="block";
+  box.classList.add("active");
+  createDots();
+  show();
+}
+
+async function end() {
+  blur.style.display = "none";
+  box.classList.remove("active");
+  box.remove();
+  if (lastEl) lastEl.classList.remove("highlight");
+
+  try {
+    const res = await fetch('/tour-abgeschlossen', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    const data = await res.json();
+    console.log(data);
+
+  } catch (err) {
+    console.error(err);
+    alert('Fehler beim Verarbeiten der Anfrage.');
+  }
+}
+
+
+next.onclick=()=>{
+  i++;
+  if(i>=steps.length) end();
+  else show();
+};
+
+
+  start();
+
+
+});
+</script>
+{% endif %}
+
+
+    
+</body>
+</html>

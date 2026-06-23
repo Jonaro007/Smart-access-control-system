@@ -1,0 +1,175 @@
+* {
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+    margin: 0;
+    padding: 0;
+  }
+
+body {
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+    
+    
+}
+
+header{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 10vh;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+}
+nav {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header ol {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+header ol li {
+    display: flex;
+    flex-direction: row;
+    margin: 6px;
+    text-decoration: none;
+    align-items: center;
+}
+header li a {
+    color: black;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 500;
+}
+header i{
+    color: #19a1a9;
+    padding-bottom: 8px;
+    
+    font-size: 33px;
+}
+
+.ülock {
+    font-weight: 550;
+    font-size: 28px;
+}
+
+.lockDiv {
+    gap: 22px;
+}
+
+
+
+
+.flash-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.flash-message {
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 250px;
+    max-width: 400px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+
+.flash-message.success {
+    background-color: #28a745;
+}
+
+
+.flash-message.error {
+    background-color: #dc3545;
+}
+.flash-message.info {
+    background-color: rgb(197, 157, 157);
+}
+
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-10px); }
+}
+
+
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 25px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    height: 3px;
+    width: 100%;
+    background-color: #19a1a9;
+    border-radius: 2px;
+}
+
+
+@media (max-width: 900px) {
+    nav ol.lockDiv {
+        display: none;
+        position: absolute;
+        top: 10vh;
+        right: 1rem;
+        background: white;
+        flex-direction: column;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+        gap: 1rem;
+        z-index: 200;
+    }
+
+    nav ol.lockDiv.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
