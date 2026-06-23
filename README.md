@@ -92,6 +92,19 @@ Der Server startet automatisch und stellt die Verbindung zum ESP32-System her.
 
 ---
 
+### Funktionsweise
+```
+1. Ein Benutzer registriert sich und meldet sich über die Webanwendung (Flask-Backend) an.
+2. Das Backend überprüft die Zugangsdaten und ob der passende ESP32 eingerichtet ist.
+3. Nach erfolgreicher Authentifizierung wird eine sichere Sitzung erstellt.
+4. Benutzeraktionen werden über WebSocket/HTTP an das Backend übertragen.
+5. Das Backend validiert die Anfrage und prüft die Zugriffsrechte.
+6. Bei erfolgreicher Autorisierung wird ein Befehl an das ESP32-Gerät gesendet.
+7. Der ESP32 führt den Befehl aus und aktiviert den Servomotor.
+8. Das System protokolliert das Zugriffsereignis in der Datenbank.
+```
+---
+
 ### Hardware
 Für den Nachbau werden mindestens folgende Komponenten benötigt:
 
