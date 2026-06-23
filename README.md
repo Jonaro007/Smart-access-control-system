@@ -65,7 +65,7 @@ Steuert den physischen Schließmechanismus und empfängt autorisierte Befehle vo
 
 ---
 
-###Installation
+### Installation
 1. Repository klonen
    
 `git clone <repository-url>`
@@ -99,6 +99,7 @@ Für den Nachbau werden mindestens folgende Komponenten benötigt:
 - 360° Servomotor
 - Stromversorgung
 
+---
 
 ### Das System implementiert mehrere Sicherheitsmechanismen:
 
@@ -106,9 +107,14 @@ Für den Nachbau werden mindestens folgende Komponenten benötigt:
 - Zwei-Faktor-Authentifizierung (TOTP)
 - Geräteauthentifizierung mittels Challenge-Response (AES)
 - Rollenbasierte Zugriffskontrolle
+
+---
+
 ### Bekannte Einschränkungen
 
 Dieses Projekt wurde als schulische Arbeit entwickelt. Für produktive Nutzung wären zusätzliche Maßnahmen erforderlich, insbesondere in den Bereichen Skalierbarkeit, Härtung der Sicherheitsarchitektur und Fehlerbehandlung.
+
+---
 
 ### Dokumentation
 
