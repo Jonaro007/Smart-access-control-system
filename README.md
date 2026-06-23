@@ -48,6 +48,18 @@ Dieses Projekt wurde im Rahmen einer schulischen Projektarbeit entwickelt und ve
 - TOTP (Google Authenticator)
 - AES-basierte Challenge-Response-Authentifizierung
 
+### Bekannte Einschränkungen
+```
+Da es sich bei diesem Projekt um einen im Rahmen einer schulischen Projektarbeit entwickelten Prototypen handelt, wären für einen produktiven Einsatz zusätzliche Maßnahmen erforderlich:
+
+- Einsatz von bcrypt oder Argon2 anstelle von SHA-256 für die Passwortspeicherung
+- Erweiterung des Sitzungsmanagements, beispielsweise durch JWT oder OAuth2
+- Durchgehende HTTPS-Verschlüsselung für sämtliche Kommunikationswege
+- Zentrale Protokollierung und Überwachung sicherheitsrelevanter Ereignisse
+- Erweiterte Schutzmechanismen gegen Angriffe und Missbrauch
+- Verbesserungen hinsichtlich Skalierbarkeit, Wartbarkeit und Ausfallsicherheit
+```
+
 ---
 
 ## Systemarchitektur
