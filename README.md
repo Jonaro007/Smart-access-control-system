@@ -65,20 +65,46 @@ Steuert den physischen Schließmechanismus und empfängt autorisierte Befehle vo
 
 ---
 
-## Projektstruktur
+###Installation
+1. Repository klonen
+`git clone <repository-url>`
+`cd smart-access-control-system`
+2. Abhängigkeiten installieren
+`pip install -r requirements.txt`
+3. Umgebung konfigurieren
 
-```text
-.
-├── main.py
-├── server.py
-├── mail_handler.py
-├── website/
-│   ├── __init__.py
-│   ├── auth.py
-│   ├── verify.py
-│   ├── views.py
-│   ├── models.py
-│   ├── decorators.py
-│   ├── templates/
-│   └── static/
-└── requirements.txt
+**Erstelle eine .env Datei im Root-Verzeichnis:**
+```
+SECRET_KEY=your_secret_key
+
+MAIL=your_email@gmail.com
+PSW=your_app_password
+```
+Starten des Projekts
+`python main.py`
+
+Der Server startet automatisch und stellt die Verbindung zum ESP32-System her.
+
+---
+
+###Hardware
+Für den Nachbau werden mindestens folgende Komponenten benötigt:
+
+- ESP32 Mikrocontroller
+- 360° Servomotor
+- Stromversorgung
+
+
+###Das System implementiert mehrere Sicherheitsmechanismen:
+
+- Passwort-Hashing (SHA-256)
+- Zwei-Faktor-Authentifizierung (TOTP)
+- Geräteauthentifizierung mittels Challenge-Response (AES)
+- Rollenbasierte Zugriffskontrolle
+###Bekannte Einschränkungen
+
+Dieses Projekt wurde als schulische Arbeit entwickelt. Für produktive Nutzung wären zusätzliche Maßnahmen erforderlich, insbesondere in den Bereichen Skalierbarkeit, Härtung der Sicherheitsarchitektur und Fehlerbehandlung.
+
+###Dokumentation
+
+Eine ausführliche technische Dokumentation befindet sich im Repository bzw. im Ordner docs/.
